@@ -1,0 +1,15 @@
+ipython
+keras
+librosa
+matplotlib
+numpy
+pandas
+pydub
+scikit_learn
+scipy
+seaborn
+skimage
+soundfile
+tensorflow
+tqdm
+visualkeras
