@@ -53,7 +53,7 @@ In contrast to the prevalent use of hand-selected Mel-Frequency Cepstral Coeffic
 
 5. **Comparison with Pre-trained Models**:
    - During training, the top layers of pre-trained models are frozen to focus on training the lower layers with MFCC images.
-   - The pre-trained models—**DenseNet121**, **InceptionV3**, **MobileNet**, **ResNet152V2**, **VGG16**, and **Xception**—are used to compare performance with the proposed custom CNN model.
+   - The pre-trained models are used to compare performance with the proposed custom CNN model.
    - These models are trained using the same dataset to evaluate their outcomes relative to the custom model.
 
 ## Experimentation
@@ -62,7 +62,7 @@ Through a series of experiments, the following aspects were evaluated:
 - The **effectiveness of MFCC images** in representing speech data, providing better context than traditional feature selection.
 - The impact of **AWGN augmentation** on raw audio data and MFCC images, leading to improved model robustness against noise.
 - The **combination of MFCC images and AWGN augmentation**, showing potential synergies that further enhance deep learning model performance.
-- **Pre-trained model evaluation**, with DenseNet121, InceptionV3, MobileNet, ResNet152V2, VGG16, and Xception compared against the custom CNN model to assess the benefit of MFCC image-based input and augmentation.
+- **Pre-trained model evaluation** compared against the custom CNN model to assess the benefit of MFCC image-based input and augmentation.
 
 ## Conclusion
 
