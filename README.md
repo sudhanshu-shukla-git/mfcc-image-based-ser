@@ -72,7 +72,7 @@ This research introduces a novel approach to SER by integrating MFCC image-based
 
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/your-repo/speech-emotion-recognition-methodology.git
+   git clone https://github.com/sudhanshu-shukla-git/mfcc-image-based-ser.git
    ```
 
 2. Install dependencies:  
