@@ -4,7 +4,6 @@ description: Generate a daily activity report in a new issue.
 on:
   schedule: daily
   workflow_dispatch:
-model: gpt-4o
 permissions:
   contents: read
   issues: read
