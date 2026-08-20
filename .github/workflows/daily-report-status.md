@@ -44,6 +44,7 @@ tools:
   cache-memory:
     key: daily-status-seen-issues
     retention-days: 7
+timeout-minutes: 10
 safe-outputs:
   create-issue:
 ---
@@ -75,6 +76,9 @@ body, and source URL. Compile the returned one-sentence summaries into a
 numbered list in the daily report, preserving each issue's source link.
 
 Create exactly one issue using the configured `create-issue` safe output. If there is no meaningful activity in the reporting window, call `noop` with a brief explanation instead.
+If both the recent commit log and the deduplicated issue list are empty, use
+`noop` with this fallback message: "No new commits or eligible open bug issues
+were found in the last 24 hours." Do not call `create-issue` in that case.
 
 ## Safe Outputs
 
