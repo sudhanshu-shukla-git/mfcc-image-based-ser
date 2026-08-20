@@ -69,9 +69,23 @@ Use these workflow-collected sources when preparing the report. Read
 `/tmp/gh-aw/recent-commits.txt` for the recent commit log and
 `/tmp/gh-aw/open-issues.json` for all open issues before summarizing.
 
+For each open issue that remains after deduplication, call the
+`issue-summarizer` sub-agent exactly once with that issue's number, title,
+body, and source URL. Compile the returned one-sentence summaries into a
+numbered list in the daily report, preserving each issue's source link.
+
 Create exactly one issue using the configured `create-issue` safe output. If there is no meaningful activity in the reporting window, call `noop` with a brief explanation instead.
 
 ## Safe Outputs
 
 - Use `create-issue` for the report.
 - Call `noop` when no visible issue is needed.
+
+## agent: `issue-summarizer`
+---
+description: Summarizes one GitHub issue in exactly one sentence.
+model: small
+---
+Read the provided GitHub issue number, title, body, and source URL. Return
+exactly one concise sentence describing the issue's problem, requested
+outcome, and current relevance. Do not add bullets, headings, or commentary.
