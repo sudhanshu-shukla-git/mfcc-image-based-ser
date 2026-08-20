@@ -5,6 +5,13 @@ on:
   schedule: daily
   workflow_dispatch:
 model: gpt-4o
+steps:
+  - id: recent
+    name: Count commits from the last 24 hours
+    shell: bash
+    run: |
+      commit_count="$(git log --since='24 hours ago' --oneline | wc -l)"
+      echo "commit_count=$commit_count" >> "$GITHUB_OUTPUT"
 permissions:
   contents: read
   issues: read
