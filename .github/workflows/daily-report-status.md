@@ -35,11 +35,16 @@ steps:
 permissions:
   contents: read
   issues: read
+  pull-requests: read
   copilot-requests: write
 tools:
   github:
     mode: gh-proxy
-    toolsets: [repos, issues]
+    toolsets: [default]
+  cache-memory:
+    key: daily-status-seen-issues
+    retention-days: 7
+timeout-minutes: 10
 safe-outputs:
   create-issue:
 ---
@@ -48,17 +53,43 @@ safe-outputs:
 
 ## Task
 
-Generate an activity report in a new GitHub issue for the current repository.
+Use the GitHub tools to fetch the 5 most recent commits and all open issues
+labelled `bug` in the current repository. Write a concise daily summary from
+that information and post it as a new GitHub issue.
 
-Use the reporting window of the previous 24 hours ending at the workflow run start time. Summarize relevant repository activity, including newly opened, updated, and closed issues and notable commits. Include the reporting window and source links in the report, and write it as concise GitHub-flavored Markdown.
+Include source links and the reporting date in the GitHub-flavored Markdown
+summary.
+
+Use the `cache-memory` slot keyed `daily-status-seen-issues` for deduplication.
+Read its stored issue numbers before preparing the report and exclude issues
+that have already been reported. After creating the summary, write the current
+reported issue numbers back to that memory slot so future runs do not
+duplicate them.
 
 Use these workflow-collected sources when preparing the report. Read
 `/tmp/gh-aw/recent-commits.txt` for the recent commit log and
 `/tmp/gh-aw/open-issues.json` for all open issues before summarizing.
 
+For each open issue that remains after deduplication, call the
+`issue-summarizer` sub-agent exactly once with that issue's number, title,
+body, and source URL. Compile the returned one-sentence summaries into a
+numbered list in the daily report, preserving each issue's source link.
+
 Create exactly one issue using the configured `create-issue` safe output. If there is no meaningful activity in the reporting window, call `noop` with a brief explanation instead.
+If both the recent commit log and the deduplicated issue list are empty, use
+`noop` with this fallback message: "No new commits or eligible open bug issues
+were found in the last 24 hours." Do not call `create-issue` in that case.
 
 ## Safe Outputs
 
 - Use `create-issue` for the report.
 - Call `noop` when no visible issue is needed.
+
+## agent: `issue-summarizer`
+---
+description: Summarizes one GitHub issue in exactly one sentence.
+model: small
+---
+Read the provided GitHub issue number, title, body, and source URL. Return
+exactly one concise sentence describing the issue's problem, requested
+outcome, and current relevance. Do not add bullets, headings, or commentary.
