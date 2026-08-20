@@ -41,6 +41,9 @@ tools:
   github:
     mode: gh-proxy
     toolsets: [default]
+  cache-memory:
+    key: daily-status-seen-issues
+    retention-days: 7
 safe-outputs:
   create-issue:
 ---
@@ -55,6 +58,12 @@ that information and post it as a new GitHub issue.
 
 Include source links and the reporting date in the GitHub-flavored Markdown
 summary.
+
+Use the `cache-memory` slot keyed `daily-status-seen-issues` for deduplication.
+Read its stored issue numbers before preparing the report and exclude issues
+that have already been reported. After creating the summary, write the current
+reported issue numbers back to that memory slot so future runs do not
+duplicate them.
 
 Use these workflow-collected sources when preparing the report. Read
 `/tmp/gh-aw/recent-commits.txt` for the recent commit log and
