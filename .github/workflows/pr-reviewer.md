@@ -9,7 +9,7 @@ on:
     name: review
     events: [pull_request_comment, pull_request_review_comment]
 engine: copilot
-model: gpt-4o-mini
+model: gpt-4o
 permissions:
   contents: read
   issues: read
