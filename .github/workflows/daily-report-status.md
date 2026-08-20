@@ -35,11 +35,12 @@ steps:
 permissions:
   contents: read
   issues: read
+  pull-requests: read
   copilot-requests: write
 tools:
   github:
     mode: gh-proxy
-    toolsets: [repos, issues]
+    toolsets: [default]
 safe-outputs:
   create-issue:
 ---
@@ -48,9 +49,12 @@ safe-outputs:
 
 ## Task
 
-Generate an activity report in a new GitHub issue for the current repository.
+Use the GitHub tools to fetch the 5 most recent commits and all open issues
+labelled `bug` in the current repository. Write a concise daily summary from
+that information and post it as a new GitHub issue.
 
-Use the reporting window of the previous 24 hours ending at the workflow run start time. Summarize relevant repository activity, including newly opened, updated, and closed issues and notable commits. Include the reporting window and source links in the report, and write it as concise GitHub-flavored Markdown.
+Include source links and the reporting date in the GitHub-flavored Markdown
+summary.
 
 Use these workflow-collected sources when preparing the report. Read
 `/tmp/gh-aw/recent-commits.txt` for the recent commit log and
